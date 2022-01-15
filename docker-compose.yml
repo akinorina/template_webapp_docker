@@ -1,0 +1,10 @@
+version: '3'
+services:
+  #
+  # client application
+  #
+  frontend-app:
+    container_name: frontend-app
+    build: ../template_webapp_client
+    ports:
+      - 80:80
