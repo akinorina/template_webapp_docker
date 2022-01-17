@@ -1,6 +1,46 @@
 version: '3'
 services:
   #
+  # database by mariadb
+  #
+  db:
+    container_name: db
+    image: mariadb
+    build: ./db
+    volumes:
+      - template_webapp_docker_mysqldata:/var/lib/mysql
+    ports:
+      - 13306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: template_webapp_server
+      MARIADB_PASSWORD: template_webapp_server
+      MARIADB_DATABASE: template_webapp_server
+    networks:
+      - backend
+
+  #
+  # phpMyAdmin
+  #
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    volumes:
+      - template_webapp_docker_phpmyadmindata:/sessions
+    ports:
+      - 18080:80
+    environment:
+      - TZ=Asia/Tokyo
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    networks:
+      - backend
+    depends_on:
+      - db
+
+  #
   # client application
   #
   frontend-app:
@@ -8,3 +48,14 @@ services:
     build: ../template_webapp_client
     ports:
       - 80:80
+    networks:
+      - backend
+    depends_on:
+      - backend-app
+
+networks:
+  backend: null
+
+volumes:
+  template_webapp_docker_mysqldata: null
+  template_webapp_docker_phpmyadmindata: null
