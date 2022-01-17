@@ -41,6 +41,19 @@ services:
       - db
 
   #
+  # server application
+  #
+  backend-app:
+    container_name: backend-app
+    build: ../template_webapp_server
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+    depends_on:
+      - db
+
+  #
   # client application
   #
   frontend-app:
