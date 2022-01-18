@@ -10,7 +10,7 @@ services:
     volumes:
       - template_webapp_docker_mysqldata:/var/lib/mysql
     ports:
-      - 13306:3306
+      - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_USER: template_webapp_server
@@ -28,7 +28,7 @@ services:
     volumes:
       - template_webapp_docker_phpmyadmindata:/sessions
     ports:
-      - 18080:80
+      - 8080:80
     environment:
       - TZ=Asia/Tokyo
       - PMA_ARBITRARY=1
