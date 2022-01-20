@@ -12,6 +12,7 @@ services:
     ports:
       - 3306:3306
     environment:
+      TZ: Asia/Tokyo
       MARIADB_ROOT_PASSWORD: root
       MARIADB_USER: template_webapp_server
       MARIADB_PASSWORD: template_webapp_server
@@ -39,6 +40,21 @@ services:
       - backend
     depends_on:
       - db
+
+  #
+  # mailhog
+  #
+  mailhog:
+    container_name: smtp
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
+    environment:
+      MAIL_HOST: smtp
+      MAIL_PORT: 1025
+    networks:
+      - backend
 
   #
   # server application
