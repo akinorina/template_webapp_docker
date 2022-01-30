@@ -68,6 +68,7 @@ services:
       - backend
     depends_on:
       - db
+      - smtp
 
   #
   # client application
