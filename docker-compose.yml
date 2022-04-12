@@ -42,9 +42,9 @@ services:
       - db
 
   #
-  # mailhog
+  # smtp server by mailhog
   #
-  mailhog:
+  smtp:
     container_name: smtp
     image: mailhog/mailhog
     ports:
