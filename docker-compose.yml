@@ -8,15 +8,15 @@ services:
     image: mariadb
     build: ./db
     volumes:
-      - template_webapp_docker_mysqldata:/var/lib/mysql
+      - template_webapp_db:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
       TZ: Asia/Tokyo
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_USER: template_webapp_server
-      MARIADB_PASSWORD: template_webapp_server
-      MARIADB_DATABASE: template_webapp_server
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: template_webapp_db
+      MYSQL_PASSWORD: template_webapp_db
+      MYSQL_DATABASE: template_webapp_db
     networks:
       - backend
 
@@ -27,7 +27,7 @@ services:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     volumes:
-      - template_webapp_docker_phpmyadmindata:/sessions
+      - template_webapp_phpmyadmin:/sessions
     ports:
       - 8080:80
     environment:
@@ -42,9 +42,9 @@ services:
       - db
 
   #
-  # mailhog
+  # smtp server by mailhog
   #
-  mailhog:
+  smtp:
     container_name: smtp
     image: mailhog/mailhog
     ports:
@@ -68,6 +68,7 @@ services:
       - backend
     depends_on:
       - db
+      - smtp
 
   #
   # client application
@@ -86,5 +87,5 @@ networks:
   backend: null
 
 volumes:
-  template_webapp_docker_mysqldata: null
-  template_webapp_docker_phpmyadmindata: null
+  template_webapp_db: null
+  template_webapp_phpmyadmin: null
